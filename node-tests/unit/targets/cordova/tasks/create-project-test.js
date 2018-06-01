@@ -1,24 +1,24 @@
-var td              = require('testdouble');
+const td              = require('testdouble');
 
-var fsUtils         = require('../../../../../lib/utils/fs-utils');
-var logger          = require('../../../../../lib/utils/logger');
+const fsUtils         = require('../../../../../lib/utils/fs-utils');
+const logger          = require('../../../../../lib/utils/logger');
 
-var cordovaProj     = require('cordova-lib').cordova;
-var mockProject     = require('../../../../fixtures/corber-mock/project');
-var cordovaPath     = require('../../../../../lib/targets/cordova/utils/get-path');
-var camelize        = require('../../../../../lib/utils/string').camelize;
-var isObject        = td.matchers.isA(Object);
-var isString        = td.matchers.isA(String);
-var contains        = td.matchers.contains;
+const cordovaProj     = require('cordova-lib').cordova;
+const mockProject     = require('../../../../fixtures/corber-mock/project');
+const cordovaPath     = require('../../../../../lib/targets/cordova/utils/get-path');
+const camelize        = require('../../../../../lib/utils/string').camelize;
+const isObject        = td.matchers.isA(Object);
+const isString        = td.matchers.isA(String);
+const contains        = td.matchers.contains;
 
 describe('Cordova Create Project Task', function() {
-  var create, rawDouble;
+  let create, rawDouble;
 
-  var setupCreateTask = function() {
+  let setupCreateTask = function() {
     //TODO - factor me out
     rawDouble = td.replace(cordovaProj, 'create');
 
-    var CreateCdvTask = require('../../../../../lib/targets/cordova/tasks/create-project');
+    let CreateCdvTask = require('../../../../../lib/targets/cordova/tasks/create-project');
 
     create = new CreateCdvTask({
       id: 'io.corber.' + camelize(mockProject.name),
@@ -63,7 +63,7 @@ describe('Cordova Create Project Task', function() {
     td.replace(fsUtils, 'existsSync', function() {
       return true;
     });
-    var logDouble = td.replace(logger, 'warn');
+    let logDouble = td.replace(logger, 'warn');
 
     setupCreateTask();
     return create.run().then(function() {
@@ -75,7 +75,7 @@ describe('Cordova Create Project Task', function() {
     setupCreateTask();
     create.run();
 
-    var matcher = td.matchers.contains({
+    let matcher = td.matchers.contains({
       lib: {
         www: {
           url: 'ember-cordova-template'
@@ -91,7 +91,7 @@ describe('Cordova Create Project Task', function() {
     create.templatePath = 'templatePath';
     create.run();
 
-    var matcher = td.matchers.contains({lib: { www: { url: 'templatePath'}}});
+    let matcher = td.matchers.contains({lib: { www: { url: 'templatePath'}}});
     td.verify(rawDouble(isString, isString, isString, matcher));
   });
 });
