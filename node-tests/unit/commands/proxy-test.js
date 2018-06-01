@@ -1,23 +1,23 @@
-var BashTask        = require('../../../lib/tasks/bash');
-var VerifyInstall   = require('../../../lib/targets/cordova/validators/is-installed');
-var CordovaCmd      = require('../../../lib/commands/proxy');
-var logger          = require('../../../lib/utils/logger');
+const BashTask        = require('../../../lib/tasks/bash');
+const VerifyInstall   = require('../../../lib/targets/cordova/validators/is-installed');
+const CordovaCmd      = require('../../../lib/commands/proxy');
+const logger          = require('../../../lib/utils/logger');
 
-var td              = require('testdouble');
-var Promise         = require('rsvp');
+const td              = require('testdouble');
+const Promise         = require('rsvp');
 
-var mockProject     = require('../../fixtures/corber-mock/project');
-var mockAnalytics   = require('../../fixtures/corber-mock/analytics');
-var isObject        = td.matchers.isA(Object);
-var contains        = td.matchers.contains;
+const mockProject     = require('../../fixtures/corber-mock/project');
+const mockAnalytics   = require('../../fixtures/corber-mock/analytics');
+const isObject        = td.matchers.isA(Object);
+const contains        = td.matchers.contains;
 
 describe('Cordova Command', function() {
-  var setupCmd = function() {
+  let setupCmd = function() {
     td.replace(VerifyInstall.prototype, 'run', function() {
       return Promise.resolve();
     });
 
-    var cmd = new CordovaCmd({
+    let cmd = new CordovaCmd({
       project: mockProject.project
     });
     cmd.analytics = mockAnalytics;
@@ -29,9 +29,9 @@ describe('Cordova Command', function() {
     td.reset();
   });
 
-  it('warns if an corber  command is used', function() {
-    var logDouble = td.replace(logger, 'warn');
-    var cmd = setupCmd();
+  it('warns if an corber command is used', function() {
+    let logDouble = td.replace(logger, 'warn');
+    let cmd = setupCmd();
 
     td.replace(cmd, 'run', function() {
       return Promise.resolve();
@@ -43,8 +43,8 @@ describe('Cordova Command', function() {
   });
 
   it('warns if cordova command is unknown', function() {
-    var logDouble = td.replace(logger, 'warn');
-    var cmd = setupCmd();
+    let logDouble = td.replace(logger, 'warn');
+    let cmd = setupCmd();
 
     td.replace(cmd, 'run', function() {
       return Promise.resolve();
@@ -56,8 +56,8 @@ describe('Cordova Command', function() {
   });
 
   it('proxies argument commands', function(done) {
-    var bashDouble = td.replace(BashTask.prototype, 'runCommand');
-    var cmd = setupCmd();
+    let bashDouble = td.replace(BashTask.prototype, 'runCommand');
+    let cmd = setupCmd();
 
     cmd.validateAndRun(['plugin add foo']).then(function() {
       td.verify(bashDouble('cordova plugin add foo', isObject));
