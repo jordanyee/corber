@@ -1,23 +1,23 @@
-var cordovaPath     = require('../../../../../lib/targets/cordova/utils/get-path');
-var editXml         = require('../../../../../lib/targets/cordova/utils/edit-xml');
-var expect          = require('../../../../helpers/expect');
-var mockProject     = require('../../../../fixtures/corber-mock/project');
-var parseXml        = require('../../../../../lib/utils/parse-xml');
-var path            = require('path');
+const cordovaPath     = require('../../../../../lib/targets/cordova/utils/get-path');
+const editXml         = require('../../../../../lib/targets/cordova/utils/edit-xml');
+const expect          = require('../../../../helpers/expect');
+const mockProject     = require('../../../../fixtures/corber-mock/project');
+const parseXml        = require('../../../../../lib/utils/parse-xml');
+const path            = require('path');
 
 describe('Edit XML Util', function() {
-  var host = 'http://localhost:8080';
+  let host = 'http://localhost:8080';
 
   beforeEach(function() {
     editXml.addNavigation(mockProject.project, host);
   });
 
   describe('addNavigation function', function() {
-    it('add node to the xml file in addition to client nodes', function() {
-      var cdvPath = cordovaPath(mockProject.project.root);
-      var configPath = path.join(cdvPath, 'config.xml');
-      var xml = parseXml(configPath);
-      var nodes = xml._result.widget['allow-navigation'].length;
+    it('adds node to the xml file in addition to client nodes', function() {
+      let cdvPath = cordovaPath(mockProject.project.root);
+      let configPath = path.join(cdvPath, 'config.xml');
+      let xml = parseXml(configPath);
+      let nodes = xml._result.widget['allow-navigation'].length;
 
       expect(nodes).to.equal(3);
     });
@@ -30,10 +30,10 @@ describe('Edit XML Util', function() {
 
     describe('if nodes placed by util exist', function() {
       it('removes util placed nodes and keep client nodes', function() {
-        var cdvPath = cordovaPath(mockProject.project.root);
-        var configPath = path.join(cdvPath, 'config.xml');
-        var xml = parseXml(configPath);
-        var nodes = xml._result.widget['allow-navigation'].length;
+        let cdvPath = cordovaPath(mockProject.project.root);
+        let configPath = path.join(cdvPath, 'config.xml');
+        let xml = parseXml(configPath);
+        let nodes = xml._result.widget['allow-navigation'].length;
 
         expect(nodes).to.equal(2);
       });
