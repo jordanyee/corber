@@ -12,7 +12,7 @@ describe('Update Watchman Config Task', function() {
 
   beforeEach(function() {
     watchmanTask = new WatchmanConfig({
-      project: mockProject.project
+      projectRoot: mockProject.project.root
     });
   });
 
