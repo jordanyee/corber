@@ -1,17 +1,17 @@
-var RawTask         = require('../../../../../lib/targets/cordova/tasks/raw');
-var td              = require('testdouble');
-var expect          = require('../../../../helpers/expect');
-var cordovaPath     = require('../../../../../lib/targets/cordova/utils/get-path');
-var mockProject     = require('../../../../fixtures/corber-mock/project');
-var Promise         = require('rsvp');
-var cordovaLib      = require('cordova-lib');
-var cordovaProj     = cordovaLib.cordova;
-var events          = cordovaLib.events;
-var cordovaLogger   = require('cordova-common').CordovaLogger.get();
-var logger          = require('../../../../../lib/utils/logger');
+const RawTask         = require('../../../../../lib/targets/cordova/tasks/raw');
+const td              = require('testdouble');
+const expect          = require('../../../../helpers/expect');
+const cordovaPath     = require('../../../../../lib/targets/cordova/utils/get-path');
+const mockProject     = require('../../../../fixtures/corber-mock/project');
+const Promise         = require('rsvp');
+const cordovaLib      = require('cordova-lib');
+const cordovaProj     = cordovaLib.cordova;
+const events          = cordovaLib.events;
+const cordovaLogger   = require('cordova-common').CordovaLogger.get();
+const logger          = require('../../../../../lib/utils/logger');
 
 describe('Cordova Raw Task', function() {
-  var setupTask = function() {
+  let setupTask = function() {
     return new RawTask({
       api: 'platform',
       project: mockProject.project
@@ -27,12 +27,12 @@ describe('Cordova Raw Task', function() {
       done();
     });
 
-    var raw = setupTask();
+    let raw = setupTask();
     return raw.run();
   });
 
   describe('with a mock function', function() {
-    var chdirDouble;
+    let chdirDouble;
 
     beforeEach(function() {
       chdirDouble = td.replace(process, 'chdir');
@@ -43,8 +43,8 @@ describe('Cordova Raw Task', function() {
     });
 
     it('changes to cordova dir', function() {
-      var cdvPath = cordovaPath(mockProject.project.root);
-      var raw = setupTask();
+      let cdvPath = cordovaPath(mockProject.project.root);
+      let raw = setupTask();
 
       return raw.run().then(function() {
         td.verify(chdirDouble(cdvPath));
@@ -52,18 +52,18 @@ describe('Cordova Raw Task', function() {
     });
 
     it('inits a callback which resolves', function() {
-      var raw = setupTask();
+      let raw = setupTask();
 
       return expect(raw.run()).to.eventually.be.fulfilled;
     });
 
     it('changes back to ember dir on compvarion', function() {
-      var emberPath = process.cwd();
-      var raw = setupTask();
+      let emberPath = process.cwd();
+      let raw = setupTask();
 
       return expect(
         raw.run().then(function() {
-          var args = td.explain(chdirDouble).calls[1].args[0];
+          let args = td.explain(chdirDouble).calls[1].args[0];
           return args
         })
       ).to.eventually.equal(emberPath);
@@ -71,7 +71,7 @@ describe('Cordova Raw Task', function() {
 
     it('sets up Cordova logging', function() {
       td.replace(cordovaLogger, 'subscribe');
-      var raw = setupTask();
+      let raw = setupTask();
 
       return raw.run().then(function() {
         td.verify(cordovaLogger.subscribe(events));
@@ -81,7 +81,7 @@ describe('Cordova Raw Task', function() {
     it('passes log level to cordova logger', function() {
       td.replace(cordovaLogger, 'setLevel');
       td.when(td.replace(logger, 'getLogLevel')()).thenReturn('verbose');
-      var raw = setupTask();
+      let raw = setupTask();
 
       return raw.run().then(function() {
         td.verify(cordovaLogger.setLevel('verbose'));
@@ -97,11 +97,9 @@ describe('Cordova Raw Task', function() {
     });
 
     it('rejects run() with the failure', function() {
-      var raw = setupTask();
+      let raw = setupTask();
 
-      return expect(raw.run()).to.eventually.be.rejectedWith(
-        /fail/
-      );
+      return expect(raw.run()).to.eventually.be.rejectedWith(/fail/);
     });
   });
 });
