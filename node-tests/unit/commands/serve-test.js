@@ -133,7 +133,7 @@ describe('Serve Command', function() {
     return serveCmd.run({
       reloadUrl: 'test-url'
     }).then(function() {
-      var cdvPath = cordovaPath(mockProject.project);
+      var cdvPath = cordovaPath(mockProject.project.root);
       var configPath = path.join(cdvPath, 'config.xml');
       var xml = parseXml(configPath);
       var node = xml._result.widget['allow-navigation'].pop().$.href;

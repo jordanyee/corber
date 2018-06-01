@@ -23,7 +23,7 @@ describe('Cordova Create Project Task', function() {
     create = new CreateCdvTask({
       id: 'io.corber.' + camelize(mockProject.name),
       name: mockProject.name,
-      cordovaPath: cordovaPath(mockProject.project, false),
+      cordovaPath: cordovaPath(mockProject.project.root, false),
       ui: mockProject.ui
     });
   };

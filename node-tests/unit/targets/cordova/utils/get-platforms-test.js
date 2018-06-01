@@ -11,7 +11,7 @@ describe('Get Added Platforms Util', function() {
     let subject;
 
     beforeEach(function() {
-      var cordovaPath = getCordovaPath(mockProject.project);
+      var cordovaPath = getCordovaPath(mockProject.project.root);
       var platformsPath = path.join(cordovaPath, 'platforms/platforms.json');
       var packagePath = path.join(cordovaPath, 'package.json');
 
@@ -37,7 +37,7 @@ describe('Get Added Platforms Util', function() {
     let subject;
 
     beforeEach(function() {
-      var cordovaPath = getCordovaPath(mockProject.project);
+      var cordovaPath = getCordovaPath(mockProject.project.root);
       var packagePath = path.join(cordovaPath, 'package.json');
 
       td.replace(packagePath, { 'cordova': { 'platforms': ['android'] } });

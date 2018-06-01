@@ -43,7 +43,7 @@ describe('Cordova Raw Task', function() {
     });
 
     it('changes to cordova dir', function() {
-      var cdvPath = cordovaPath(mockProject.project);
+      var cdvPath = cordovaPath(mockProject.project.root);
       var raw = setupTask();
 
       return raw.run().then(function() {

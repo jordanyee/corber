@@ -14,7 +14,7 @@ describe('Edit XML Util', function() {
 
   describe('addNavigation function', function() {
     it('add node to the xml file in addition to client nodes', function() {
-      var cdvPath = cordovaPath(mockProject.project);
+      var cdvPath = cordovaPath(mockProject.project.root);
       var configPath = path.join(cdvPath, 'config.xml');
       var xml = parseXml(configPath);
       var nodes = xml._result.widget['allow-navigation'].length;
@@ -30,7 +30,7 @@ describe('Edit XML Util', function() {
 
     describe('if nodes placed by util exist', function() {
       it('removes util placed nodes and keep client nodes', function() {
-        var cdvPath = cordovaPath(mockProject.project);
+        var cdvPath = cordovaPath(mockProject.project.root);
         var configPath = path.join(cdvPath, 'config.xml');
         var xml = parseXml(configPath);
         var nodes = xml._result.widget['allow-navigation'].length;
