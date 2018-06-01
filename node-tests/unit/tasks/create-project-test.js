@@ -100,7 +100,7 @@ describe('Create Project', function() {
         id: 'io.corber.corberMock',
         name: 'io.corber.app',
         templatePath: 'passedTemplatePath',
-        project: isAnything(),
+        cordovaPath: isAnything(),
         ui: isAnything()
       }));
     });

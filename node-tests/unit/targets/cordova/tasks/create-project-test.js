@@ -5,6 +5,8 @@ var logger          = require('../../../../../lib/utils/logger');
 
 var cordovaProj     = require('cordova-lib').cordova;
 var mockProject     = require('../../../../fixtures/corber-mock/project');
+var cordovaPath     = require('../../../../../lib/targets/cordova/utils/get-path');
+var camelize        = require('../../../../../lib/utils/string').camelize;
 var isObject        = td.matchers.isA(Object);
 var isString        = td.matchers.isA(String);
 var contains        = td.matchers.contains;
@@ -17,7 +19,13 @@ describe('Cordova Create Project Task', function() {
     rawDouble = td.replace(cordovaProj, 'create');
 
     var CreateCdvTask = require('../../../../../lib/targets/cordova/tasks/create-project');
-    create = new CreateCdvTask(mockProject);
+
+    create = new CreateCdvTask({
+      id: 'io.corber.' + camelize(mockProject.name),
+      name: mockProject.name,
+      cordovaPath: cordovaPath(mockProject.project, false),
+      ui: mockProject.ui
+    });
   };
 
   beforeEach(function() {
