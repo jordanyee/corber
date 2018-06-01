@@ -1,27 +1,27 @@
 'use strict';
 
-var td              = require('testdouble');
-var expect          = require('../../helpers/expect');
-var Promise         = require('rsvp');
-var path            = require('path');
+const td              = require('testdouble');
+const expect          = require('../../helpers/expect');
+const Promise         = require('rsvp');
+const path            = require('path');
 
-var CdvBuildTask    = require('../../../lib/targets/cordova/tasks/build');
-var BashTask        = require('../../../lib/tasks/bash');
-var HookTask        = require('../../../lib/tasks/run-hook');
-var LRloadShellTask = require('../../../lib/tasks/create-livereload-shell');
-var editXml         = require('../../../lib/targets/cordova/utils/edit-xml');
-var parseXml        = require('../../../lib/utils/parse-xml');
-var cordovaPath     = require('../../../lib/targets/cordova/utils/get-path');
+const CdvBuildTask    = require('../../../lib/targets/cordova/tasks/build');
+const BashTask        = require('../../../lib/tasks/bash');
+const HookTask        = require('../../../lib/tasks/run-hook');
+const LRloadShellTask = require('../../../lib/tasks/create-livereload-shell');
+const editXml         = require('../../../lib/targets/cordova/utils/edit-xml');
+const parseXml        = require('../../../lib/utils/parse-xml');
+const cordovaPath     = require('../../../lib/targets/cordova/utils/get-path');
 
-var mockProject     = require('../../fixtures/corber-mock/project');
-var mockAnalytics   = require('../../fixtures/corber-mock/analytics');
+const mockProject     = require('../../fixtures/corber-mock/project');
+const mockAnalytics   = require('../../fixtures/corber-mock/analytics');
 
-var ValidatePlugin          = require('../../../lib/targets/cordova/validators/plugin');
-var ValidateAllowNavigation = require('../../../lib/targets/cordova/validators/allow-navigation');
+const ValidatePlugin          = require('../../../lib/targets/cordova/validators/plugin');
+const ValidateAllowNavigation = require('../../../lib/targets/cordova/validators/allow-navigation');
 
 describe('Serve Command', function() {
-  var serveCmd;
-  var tasks = [];
+  let serveCmd;
+  let tasks = [];
 
   afterEach(function() {
     editXml.removeNavigation(mockProject.project);
@@ -31,7 +31,8 @@ describe('Serve Command', function() {
   beforeEach(function() {
     mockTasks();
 
-    var ServeCmd = require('../../../lib/commands/serve');
+    let ServeCmd = require('../../../lib/commands/serve');
+
     td.replace(ServeCmd, '_serveHang', function() {
       return Promise.resolve();
     });
@@ -82,7 +83,6 @@ describe('Serve Command', function() {
       return Promise.resolve();
     });
 
-
     td.replace(LRloadShellTask.prototype, 'run', function() {
       tasks.push('create-livereload-shell');
       return Promise.resolve();
@@ -105,7 +105,7 @@ describe('Serve Command', function() {
     }).not.to.throw(Error);
   });
 
-  it('sets vars for webpack livereload', function() {
+  it('sets lets for webpack livereload', function() {
     return serveCmd.run({platform: 'ios'}).then(function() {
       let project = mockProject.project;
       expect(project.targetIsCordova).to.equal(true);
@@ -133,10 +133,10 @@ describe('Serve Command', function() {
     return serveCmd.run({
       reloadUrl: 'test-url'
     }).then(function() {
-      var cdvPath = cordovaPath(mockProject.project.root);
-      var configPath = path.join(cdvPath, 'config.xml');
-      var xml = parseXml(configPath);
-      var node = xml._result.widget['allow-navigation'].pop().$.href;
+      let cdvPath = cordovaPath(mockProject.project.root);
+      let configPath = path.join(cdvPath, 'config.xml');
+      let xml = parseXml(configPath);
+      let node = xml._result.widget['allow-navigation'].pop().$.href;
 
       expect(node).to.equal('test-url');
     });
