@@ -42,7 +42,12 @@ For Vue CLI 2 or Non-Vue CLI, see [Configure Vue CLI 2 or Non-Vue CLI projects](
 
 **React**
 
-For React project configuration, see [Configure React Projects](http://corber.io/pages/frameworks/react).
+1. Run `npm run eject`. (corber-webpack-plugin must be added to dev config for Cordova to be accessible during `corber start`.)
+2. Open `package.json`.
+3. Update `homepage` to remove its leading slash, if it has one. (Set it to `"./"` if it doesn't exist.)
+4. Open `config/webpack.config.dev.js`.
+5. Require `corber-webpack-plugin` and assign it as `CorberWebpackPlugin`.
+6. Add `new CorberWebpackPlugin()` to the `plugins` array.
 
 **Extending Frameworks**
 
